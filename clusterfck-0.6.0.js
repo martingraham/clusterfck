@@ -39,12 +39,12 @@ var HierarchicalClustering = function(distance, linkage, threshold) {
 }
 
 HierarchicalClustering.prototype = {
-   cluster : function(items, snapshotPeriod, snapshotCb) {
-      this.clusters = [];
+   tree: function(items, snapshotPeriod, snapshotCb) {
+      this.tree = [];
       this.dists = [];  // distances between each pair of clusters
       this.mins = []; // closest cluster for each cluster
       this.index = []; // keep a hash of all clusters by key
-      
+
       for (var i = 0; i < items.length; i++) {
          var cluster = {
             value: items[i],
@@ -52,21 +52,21 @@ HierarchicalClustering.prototype = {
             index: i,
             size: 1
          };
-         this.clusters[i] = cluster;
+         this.tree[i] = cluster;
          this.index[i] = cluster;
          this.dists[i] = [];
          this.mins[i] = 0;
       }
 
-      for (var i = 0; i < this.clusters.length; i++) {
+      for (var i = 0; i < this.tree.length; i++) {
          for (var j = 0; j <= i; j++) {
-            var dist = (i == j) ? Infinity : 
-               this.distance(this.clusters[i].value, this.clusters[j].value);
+            var dist = (i == j) ? Infinity :
+               this.distance(this.tree[i].value, this.tree[j].value);
             this.dists[i][j] = dist;
             this.dists[j][i] = dist;
 
             if (dist < this.dists[i][this.mins[i]]) {
-               this.mins[i] = j;               
+               this.mins[i] = j;
             }
          }
       }
@@ -75,25 +75,25 @@ HierarchicalClustering.prototype = {
       var i = 0;
       while (merged) {
         if (snapshotCb && (i++ % snapshotPeriod) == 0) {
-           snapshotCb(this.clusters);           
+           snapshotCb(this.tree);
         }
         merged = this.mergeClosest();
       }
-    
-      this.clusters.forEach(function(cluster) {
+
+      this.tree.forEach(function(cluster) {
         // clean up metadata used for clustering
         delete cluster.key;
         delete cluster.index;
       });
 
-      return this.clusters;
+      return this.tree;
    },
-  
+
    mergeClosest: function() {
       // find two closest clusters from cached mins
       var minKey = 0, min = Infinity;
-      for (var i = 0; i < this.clusters.length; i++) {
-         var key = this.clusters[i].key,
+      for (var i = 0; i < this.tree.length; i++) {
+         var key = this.tree[i].key,
              dist = this.dists[key][this.mins[key]];
          if (dist < min) {
             minKey = key;
@@ -101,7 +101,7 @@ HierarchicalClustering.prototype = {
          }
       }
       if (min >= this.threshold) {
-         return false;         
+         return false;
       }
 
       var c1 = this.index[minKey],
@@ -109,22 +109,23 @@ HierarchicalClustering.prototype = {
 
       // merge two closest clusters
       var merged = {
+         dist: min,
          left: c1,
          right: c2,
          key: c1.key,
          size: c1.size + c2.size
       };
 
-      this.clusters[c1.index] = merged;
-      this.clusters.splice(c2.index, 1);
+      this.tree[c1.index] = merged;
+      this.tree.splice(c2.index, 1);
       this.index[c1.key] = merged;
 
       // update distances with new merged cluster
-      for (var i = 0; i < this.clusters.length; i++) {
-         var ci = this.clusters[i];
+      for (var i = 0; i < this.tree.length; i++) {
+         var ci = this.tree[i];
          var dist;
          if (c1.key == ci.key) {
-            dist = Infinity;            
+            dist = Infinity;
          }
          else if (this.linkage == "single") {
             dist = this.dists[c1.key][ci.key];
@@ -135,7 +136,7 @@ HierarchicalClustering.prototype = {
          else if (this.linkage == "complete") {
             dist = this.dists[c1.key][ci.key];
             if (this.dists[c1.key][ci.key] < this.dists[c2.key][ci.key]) {
-               dist = this.dists[c2.key][ci.key];              
+               dist = this.dists[c2.key][ci.key];
             }
          }
          else if (this.linkage == "average") {
@@ -143,34 +144,75 @@ HierarchicalClustering.prototype = {
                    + this.dists[c2.key][ci.key] * c2.size) / (c1.size + c2.size);
          }
          else {
-            dist = this.distance(ci.value, c1.value);            
+            dist = this.distance(ci.value, c1.value);
          }
 
          this.dists[c1.key][ci.key] = this.dists[ci.key][c1.key] = dist;
       }
 
-    
+
       // update cached mins
-      for (var i = 0; i < this.clusters.length; i++) {
-         var key1 = this.clusters[i].key;        
+      for (var i = 0; i < this.tree.length; i++) {
+         var key1 = this.tree[i].key;
          if (this.mins[key1] == c1.key || this.mins[key1] == c2.key) {
             var min = key1;
-            for (var j = 0; j < this.clusters.length; j++) {
-               var key2 = this.clusters[j].key;
+            for (var j = 0; j < this.tree.length; j++) {
+               var key2 = this.tree[j].key;
                if (this.dists[key1][key2] < this.dists[key1][min]) {
-                  min = key2;                  
+                  min = key2;
                }
             }
             this.mins[key1] = min;
          }
-         this.clusters[i].index = i;
+         this.tree[i].index = i;
       }
-    
+
       // clean up metadata used for clustering
       delete c1.key; delete c2.key;
       delete c1.index; delete c2.index;
 
       return true;
+   },
+   clusters: function(num){
+     //  Return all nodes if num is invalid
+     if(num > this.tree.size || num < 1) num = this.tree.size
+
+     var result = [],
+         subtrees = [this.tree];
+
+    //  Get a list of root nodes for num different clusters
+     while(num > 1){
+       var furthest = _findNextFurthest(subtrees);
+       subtrees.splice(subtrees.indexOf(furthest), 1);
+       subtrees.push(furthest.left, furthest.right);
+       num--;
+     }
+
+     //  Transform the subtrees node list into a list of the subtrees leaf values
+     subtrees.forEach(function(tree) {
+       result.push(_getValues(tree));
+     })
+
+     //  Split the next furthest distance root node
+     function _findNextFurthest(subtrees) {
+       var max = -1,
+           furthest;
+       subtrees.forEach(function(tree){
+         if(tree.dist > max) {
+           max = tree.dist;
+           furthest = tree;
+         }
+       });
+       return furthest;
+     }
+
+     //  Traverse the tree and yield a list of the leaf node values
+     function _getValues(tree) {
+       if(tree.size === 1) return [tree.value];
+       return _getValues(tree.left).concat(_getValues(tree.right));
+     }
+
+     return result;
    }
 }
 
@@ -181,13 +223,13 @@ var hcluster = function(items, distance, linkage, threshold, snapshot, snapshotC
    if (typeof distance == "string") {
      distance = distances[distance];
    }
-   var clusters = (new HierarchicalClustering(distance, linkage, threshold))
-                  .cluster(items, snapshot, snapshotCallback);
-      
-   if (threshold === undefined) {
-      return clusters[0]; // all clustered into one
-   }
-   return clusters;
+  var hc = new HierarchicalClustering(distance, linkage, threshold),
+      tree = hc.tree(items, snapshot, snapshotCallback);
+
+   return {
+     tree: (threshold === undefined ? tree[0] : tree),
+     clusters: hc.clusters
+   };
 }
 
 module.exports = hcluster;
