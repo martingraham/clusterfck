@@ -112,7 +112,7 @@ var colors = [
 var clusters = clusterfck.hcluster(colors);
 ```
 
-`hcluster` returns an object that represents the hierarchy of the clusters with `left` and `right` subtrees. The leaf clusters have a `value` property which is the vector from the data set.
+`hcluster` returns an object with keys `tree` and `clusters`. `tree` includes the hierarchy of the clusters with `left` and `right` subtrees. The leaf clusters have a `value` property which is the vector from the data set. The `clusters` property is a function that when passed some integer n, will provide a list of values corresponding to n clusters determined by splitting the furthest nodes in the tree structure. The resulting list contains a list for each cluster, which in turn contain the values from the input.
 
 ```javascript
 {
