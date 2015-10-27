@@ -7,19 +7,27 @@
 var fs = require("fs"),
     path = require("path"),
     util = require('util')
-    build = require("./build");
+    browserify = require("browserify");
 
 var pkg = JSON.parse(fs.readFileSync("package.json"));
 var prefix = pkg.name + "-" + pkg.version;
 
-task('build', [], function (dest) {
+desc('Build the browser script from Node modules');
+task('build', {async: true}, function (dest) {
   console.log("building...");
   dest = dest || prefix + ".js";
-  build.build(dest);
+
+  // Combine js files by parsing for 'require' calls
+  browserify(pkg.main, {standalone:"clusterfck"}).bundle(function(err, buf) {
+    fs.writeFileSync(dest, "/* MIT license */\n" + buf);
+    complete();
+  });
+
   console.log("> " + dest);
 });
 
-task('minify', [], function (file, dest) {
+desc('Minify the dist script');
+task('minify', ['build'], function (file, dest) {
   file = file || prefix + ".js";
   dest = dest || prefix + ".min.js";
 
@@ -32,6 +40,8 @@ task('clean', [], function () {
   fs.unlink(prefix + ".js");
   fs.unlink(prefix + ".min.js");
 });
+
+task('default', ['build', 'minify']);
 
 function minify(code) {
   var uglifyjs = require("uglify-js"),
