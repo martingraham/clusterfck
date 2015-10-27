@@ -1,6 +1,6 @@
 /*
   Turns CommonJS package into a browser file and minifies.
-  
+
   uses node-jake http://github.com/mde/node-jake
   run with 'jake [build|minify|clean]'
 */
@@ -8,15 +8,15 @@ var fs = require("fs"),
     path = require("path"),
     util = require('util')
     build = require("./build");
-   
-var pkg = JSON.parse(fs.readFileSync("package.json")); 
+
+var pkg = JSON.parse(fs.readFileSync("package.json"));
 var prefix = pkg.name + "-" + pkg.version;
 
 task('build', [], function (dest) {
-  util.puts("building...");
+  console.log("building...");
   dest = dest || prefix + ".js";
   build.build(dest);
-  util.puts("> " + dest);
+  console.log("> " + dest);
 });
 
 task('minify', [], function (file, dest) {
@@ -25,7 +25,7 @@ task('minify', [], function (file, dest) {
 
   var minified = minify(fs.readFileSync(file, "utf-8"));
   fs.writeFileSync(dest, minified, "utf-8");
-  util.puts("> " + dest)
+  console.log("> " + dest)
 });
 
 task('clean', [], function () {
