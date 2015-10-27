@@ -5,8 +5,7 @@ var fs = require("fs"),
 var pkg = JSON.parse(fs.readFileSync("package.json"));
 
 exports.build = function(dest) {
-  browserify().require(path.join(__dirname, pkg.main)).bundle(function(err, source) {
-    fs.writeFileSync(dest, "/* MIT license */\nvar clusterfck = (function() {"
-                            + source + " return require('/clusterfck')})();");
+  browserify(pkg.main, {standalone:"clusterfck"}).bundle(function(err, buf) {
+    fs.writeFileSync(dest, "/* MIT license */\n" + buf);
  });
 }
