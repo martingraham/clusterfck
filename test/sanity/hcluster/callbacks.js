@@ -19,8 +19,8 @@ var distance = function(c1, c2) {
 }
 
 exports.testCallback = function(test) {
-   var clusters = clusterfck.hcluster(colors, distance, "single");
-   var expected = {"left":{"left":{"left":{"left":{"value":{"color":[253,253,253],"freq":500},"size":1},"right":{"value":{"color":[255,255,255],"freq":300},"size":1},"size":2},"right":{"left":{"value":{"color":[250,255,246],"freq":90},"size":1},"right":{"value":{"color":[255,255,245],"freq":100},"size":1},"size":2},"size":4},"right":{"value":{"color":[120,130,255],"freq":700},"size":1},"size":5},"right":{"left":{"left":{"left":{"value":{"color":[31,30,12],"freq":13},"size":1},"right":{"value":{"color":[23,30,10],"freq":9},"size":1},"size":2},"right":{"value":{"color":[14,20,1],"freq":23},"size":1},"size":3},"right":{"value":{"color":[120,130,40],"freq":70},"size":1},"size":4},"size":9};
+   var clusters = clusterfck.hcluster(colors, distance, "single").tree;
+   var expected = {"dist":215,"left":{"dist":180.5713155515017,"left":{"dist":7.874007874011811,"left":{"dist":3.4641016151377544,"left":{"value":{"color":[253,253,253],"freq":500},"size":1},"right":{"value":{"color":[255,255,255],"freq":300},"size":1},"size":2},"right":{"dist":5.0990195135927845,"left":{"value":{"color":[250,255,246],"freq":90},"size":1},"right":{"value":{"color":[255,255,245],"freq":100},"size":1},"size":2},"size":4},"right":{"value":{"color":[120,130,255],"freq":700},"size":1},"size":5},"right":{"dist":136.7662239004938,"left":{"dist":16.186414056238647,"left":{"dist":8.246211251235321,"left":{"value":{"color":[31,30,12],"freq":13},"size":1},"right":{"value":{"color":[23,30,10],"freq":9},"size":1},"size":2},"right":{"value":{"color":[14,20,1],"freq":23},"size":1},"size":3},"right":{"value":{"color":[120,130,40],"freq":70},"size":1},"size":4},"size":9};
    test.deepEqual(clusters, expected, "final clusters do not match expected");
    
    test.done();
