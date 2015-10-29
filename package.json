@@ -1,14 +1,19 @@
 {
-   "name": "clusterfck",
+   "name": "tayden-clusterfck",
    "description": "K-means and hierarchical clustering",
    "version": "0.7.0",
    "author": "Heather Arthur <fayearthur@gmail.com>",
+   "contributors": [{
+     "name": "Taylor Denouden",
+     "email": "taylordenouden@gmail.com"
+   }],
    "repository": {
       "type": "git",
-      "url": "http://github.com/harthur/clusterfck.git"
+      "url": "http://github.com/tayden-hakai/clusterfck.git"
    },
    "directories": {
-      "lib": "./lib"
+      "lib": "./lib",
+      "dist": "./dist"
    },
    "dependencies" : {
 
