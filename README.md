@@ -3,12 +3,19 @@ A js [cluster analysis](http://en.wikipedia.org/wiki/Cluster_analysis) library. 
 
 # Install
 
-For node.js:
+With Node.js:
 
 ```bash
-npm install clusterfck
+npm install tayden-clusterfck
 ```
-Or grab the [browser file](http://harthur.github.com/clusterfck/demos/colors/clusterfck.js)
+
+With Bower
+
+```bash
+bower install tayden-clusterfck
+```
+
+Or grab the [browser file](http://github.com/tayden-hakai/clusterfck/dist/)
 
 
 # K-means
