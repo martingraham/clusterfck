@@ -1,8 +1,7 @@
 {
-  "name": "tayden/clusterfck",
+  "name": "tayden-clusterfck",
   "description": "K-means and hierarchical clustering",
   "main": [
-    "./lib/clusterfck",
     "./dist/clusterfck.js",
     "./dist/clusterfck.min.js"
   ],
@@ -19,6 +18,10 @@
   ],
   "moduleType": [],
   "homepage": "https://github.com/tayden-hakai/clusterfck",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tayden-hakai/clusterfck.git"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
