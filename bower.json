@@ -1,10 +1,7 @@
 {
   "name": "tayden-clusterfck",
   "description": "K-means and hierarchical clustering",
-  "main": [
-    "./dist/clusterfck.js",
-    "./dist/clusterfck.min.js"
-  ],
+  "main": "./dist/clusterfck.js",
   "authors": [
     "Heather Arthur <fayearthur@gmail.com>",
     "Taylor Denouden <taylordenouden@gmail.com>"
