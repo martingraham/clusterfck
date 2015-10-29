@@ -10,16 +10,15 @@ var fs = require("fs"),
     browserify = require("browserify");
 
 var pkg = JSON.parse(fs.readFileSync("package.json"));
-var prefix = pkg.name + "-" + pkg.version;
 
 desc('Build the browser script from Node modules');
 task('build', {async: true}, function (dest) {
   console.log("building...");
-  dest = dest || prefix + ".js";
+  dest = "./dist/" + pkg.name + ".js";
 
   // Combine js files by parsing for 'require' calls
   browserify(pkg.main, {standalone:"clusterfck"}).bundle(function(err, buf) {
-    fs.writeFileSync(dest, "/* MIT license */\n" + buf);
+    fs.writeFileSync(dest, "/* MIT license */\n/* Version: " + pkg.version + " */\n" + buf);
     complete();
   });
 
@@ -28,8 +27,8 @@ task('build', {async: true}, function (dest) {
 
 desc('Minify the dist script');
 task('minify', ['build'], function (file, dest) {
-  file = file || prefix + ".js";
-  dest = dest || prefix + ".min.js";
+  file = "./dist/" + pkg.name + ".js";
+  dest = "./dist/" + pkg.name + ".min.js";
 
   var minified = minify(fs.readFileSync(file, "utf-8"));
   fs.writeFileSync(dest, minified, "utf-8");
@@ -37,8 +36,8 @@ task('minify', ['build'], function (file, dest) {
 });
 
 task('clean', [], function () {
-  fs.unlink(prefix + ".js");
-  fs.unlink(prefix + ".min.js");
+  fs.unlink("./dist/" + pkg.name + ".js");
+  fs.unlink("./dist/" + pkg.name + ".min.js");
 });
 
 task('default', ['build', 'minify']);
