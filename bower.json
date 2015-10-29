@@ -14,8 +14,8 @@
   "keywords": [
     "clusterfck",
     "clustering",
-    "hierarchical"
-    "kmeans",
+    "hierarchical",
+    "kmeans"
   ],
   "moduleType": [],
   "homepage": "https://github.com/tayden-hakai/clusterfck",
