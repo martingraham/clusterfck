@@ -16,12 +16,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "browserify": "*",
     "connect": "*",
     "cradle": "*",
     "nomnom": "*",
-    "uglify-js": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "webpack": "1.12.13"
   },
   "main": "./lib/clusterfck",
   "bugs": {
@@ -29,6 +28,7 @@
   },
   "homepage": "https://github.com/tayden/clusterfck#readme",
   "scripts": {
+    "build": "webpack -p",
     "test": "echo 'See test directory Readme'"
   },
   "license": "MIT"
