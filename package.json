@@ -16,8 +16,10 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "chai": "*",
     "connect": "*",
     "cradle": "*",
+    "mocha": "*",
     "nomnom": "*",
     "underscore": "*",
     "webpack": "1.12.13"
