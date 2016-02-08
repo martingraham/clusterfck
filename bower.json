@@ -14,10 +14,10 @@
     "kmeans"
   ],
   "moduleType": [],
-  "homepage": "https://github.com/tayden-hakai/clusterfck",
+  "homepage": "https://github.com/tayden/clusterfck",
   "repository": {
     "type": "git",
-    "url": "git://github.com/tayden-hakai/clusterfck.git"
+    "url": "https://github.com/tayden/clusterfck"
   },
   "ignore": [
     "**/.*",
