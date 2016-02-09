@@ -16,6 +16,9 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "babel": "^6.5.1",
+    "babel-core": "^6.5.1",
+    "babel-preset-es2015": "^6.5.0",
     "chai": "*",
     "connect": "*",
     "cradle": "*",
@@ -31,7 +34,12 @@
   "homepage": "https://github.com/tayden/clusterfck#readme",
   "scripts": {
     "build": "webpack -p",
-    "test": "echo 'See test directory Readme'"
+    "test": "mocha --compilers js:babel-core/register --recursive"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
 }
