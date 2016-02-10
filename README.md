@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tayden/clusterfck.svg?branch=master)](https://travis-ci.org/tayden/clusterfck)
+
 # Clusterfck
 A js [cluster analysis](http://en.wikipedia.org/wiki/Cluster_analysis) library. Includes [Hierarchical (agglomerative) clustering](http://en.wikipedia.org/wiki/Hierarchical_clustering) and [K-means clustering](http://en.wikipedia.org/wiki/K-means_clustering). [Demo here](http://harthur.github.com/clusterfck/demos/colors/).
 
