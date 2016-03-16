@@ -1,7 +1,7 @@
 {
   "name": "tayden-clusterfck",
   "description": "K-means and hierarchical clustering",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "author": "Heather Arthur <fayearthur@gmail.com>",
   "contributors": [
     "Taylor Denouden <taylordenouden@gmail.com>"
