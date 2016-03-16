@@ -3,6 +3,8 @@ module.exports = {
   entry: __dirname + "/lib/clusterfck",
   output: {
     path: __dirname + "/dist",
-    filename: "clusterfck.min.js"
+    filename: "clusterfck.min.js",
+    libraryTarget: "var",
+    library: "clusterfck"
   }
 }
