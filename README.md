@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/tayden/clusterfck.svg?branch=master)](https://travis-ci.org/tayden/clusterfck)
 
 # Clusterfck
+
 A js [cluster analysis](http://en.wikipedia.org/wiki/Cluster_analysis) library. Includes [Hierarchical (agglomerative) clustering](http://en.wikipedia.org/wiki/Hierarchical_clustering) and [K-means clustering](http://en.wikipedia.org/wiki/K-means_clustering). [Demo here](http://harthur.github.com/clusterfck/demos/colors/).
 
 # Install
@@ -17,8 +18,7 @@ With Bower
 bower install tayden-clusterfck
 ```
 
-Or grab the [browser file](http://github.com/tayden-hakai/clusterfck/dist/)
-
+Or grab the [browser file](https://github.com/tayden/clusterfck/blob/master/dist/clusterfck.min.js)
 
 # K-means
 
@@ -49,7 +49,7 @@ The second argument to `kmeans` is the number of clusters you want (default is `
 ]
 ```
 
-#### Classification
+## Classification
 
 For classification, instantiate a new Kmeans() object.
 
@@ -63,7 +63,7 @@ var clusters = kmeans.cluster(colors, 3);
 var clusterIndex = kmeans.classify([0, 0, 225]);
 ```
 
-#### Serialization
+## Serialization
 
 The toJSON() and fromJSON() methods are available for serialization.
 
@@ -78,7 +78,7 @@ kmeans = kmeans.fromJSON(json);
 var clusterIndex = kmeans.classify([0, 0, 225]);
 ```
 
-#### Initializing with Existing Centroids
+## Initializing with Existing Centroids
 
 ```javascript
 // Take existing centroids, perhaps from a database?
@@ -91,7 +91,7 @@ var kmeans = new clusterfck.Kmeans(centroids);
 var clusterIndex = kmeans.classify([0, 0, 225]);
 ```
 
-#### Accessing Centroids and K value
+## Accessing Centroids and K value
 
 After clustering or loading via fromJSON(), the calculated centers are accessible via the centroids property. Similarly, the K-value can be derived via centroids.length.
 
@@ -150,10 +150,9 @@ var clusters = clusterfck.hcluster(colors);
   [[22, 22, 90], [20, 20, 80]],
   [[100, 54, 255]]
 ]
-
 ```
 
-#### Distance metric and linkage
+## Distance metric and linkage
 
 Specify the distance metric, one of `"euclidean"` (default), `"manhattan"`, and `"max"`. The linkage criterion is the third argument, one of `"average"` (default), `"single"`, and `"complete"`.
 
