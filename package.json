@@ -1,20 +1,23 @@
 {
-  "name": "tayden-clusterfck",
+  "name": "cornhundred-clusterfck",
   "description": "K-means and hierarchical clustering",
   "version": "0.7.1",
   "author": "Heather Arthur <fayearthur@gmail.com>",
   "contributors": [
-    "Taylor Denouden <taylordenouden@gmail.com>"
+    "Taylor Denouden <taylordenouden@gmail.com>",
+    "Nicolas Fernandez <nickfloresfernandez@@gmail.com>"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/tayden/clusterfck.git"
+    "url": "https://github.com/cornhundred/clusterfck.git"
   },
   "directories": {
     "test": "test",
     "build": "gulp build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "webpack-dev-server": "^2.7.1"
+  },
   "devDependencies": {
     "babel": "^6.5.1",
     "babel-core": "^6.5.1",
@@ -25,9 +28,9 @@
   },
   "main": "./lib/clusterfck",
   "bugs": {
-    "url": "https://github.com/tayden/clusterfck/issues"
+    "url": "https://github.com/cornhundred/clusterfck/issues"
   },
-  "homepage": "https://github.com/tayden/clusterfck#readme",
+  "homepage": "https://github.com/cornhundred/clusterfck#readme",
   "scripts": {
     "build": "webpack -p",
     "test": "mocha --compilers js:babel-core/register --recursive"
