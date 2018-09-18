@@ -35,7 +35,7 @@
   "homepage": "https://github.com/cornhundred/clusterfck#readme",
   "scripts": {
     "build": "webpack -p",
-	 "buildDev": "webpack",
+    "buildDev": "webpack",
     "test": "mocha --compilers js:babel-core/register --recursive"
   },
   "license": "MIT",

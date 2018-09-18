@@ -277,21 +277,21 @@ var clusterfck =
 	  euclidean: function(v1, v2) {
 	      var total = 0;
 	      for (var i = 0; i < v1.length; i++) {
-	         total += Math.pow(v2[i] - v1[i], 2);
+	         total += (v1[i] !== undefined && v2[i] !== undefined) ? Math.pow(v2[i] - v1[i], 2) : 0;
 	      }
 	      return Math.sqrt(total);
 	   },
 	   manhattan: function(v1, v2) {
 	     var total = 0;
 	     for (var i = 0; i < v1.length ; i++) {
-	        total += Math.abs(v2[i] - v1[i]);
+	        total += (v1[i] !== undefined && v2[i] !== undefined) ? Math.abs(v2[i] - v1[i]) : 0;
 	     }
 	     return total;
 	   },
 	   max: function(v1, v2) {
 	     var max = 0;
 	     for (var i = 0; i < v1.length; i++) {
-	        max = Math.max(max , Math.abs(v2[i] - v1[i]));
+	        max = Math.max (max, (v1[i] !== undefined && v2[i] !== undefined) ? Math.abs(v2[i] - v1[i]) : 0);
 	     }
 	     return max;
 	   }
@@ -351,7 +351,8 @@ var clusterfck =
 
 	   var iterations = 0;
 	   var movement = true;
-	   while (movement) {
+		var maxIter = 1000;
+	   while (movement && iterations < maxIter) {
 	      // update point-to-centroid assignments
 	      for (var i = 0; i < points.length; i++) {
 	         assignment[i] = this.classify(points[i], distance);
@@ -368,6 +369,7 @@ var clusterfck =
 	         }
 
 	         if (!assigned.length) {
+				 clusters[j] = [];
 	            continue;
 	         }
 
@@ -376,10 +378,11 @@ var clusterfck =
 
 	         for (var g = 0; g < centroid.length; g++) {
 	            var sum = 0;
-	            for (var i = 0; i < assigned.length; i++) {
-	               sum += assigned[i][g];
+				 var present = assigned.filter (function (vec) { return vec[g] !== undefined; }); // ignore missing
+	            for (var i = 0; i < present.length; i++) {
+	               sum += present[i][g];
 	            }
-	            newCentroid[g] = sum / assigned.length;
+	            newCentroid[g] = sum / (present.length || 0);
 
 	            if (newCentroid[g] != centroid[g]) {
 	               movement = true;
@@ -390,7 +393,8 @@ var clusterfck =
 	         clusters[j] = assigned;
 	      }
 
-	      if (snapshotCb && (iterations++ % snapshotPeriod == 0)) {
+		   iterations++;
+	      if (snapshotCb && (iterations % snapshotPeriod == 0)) {
 	         snapshotCb(clusters);
 	      }
 	   }
